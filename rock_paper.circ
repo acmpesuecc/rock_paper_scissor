@@ -91,6 +91,92 @@
     <comp lib="8" loc="(270,480)" name="Text"> <!-- Text for the 7-segment display value -->
       <a name="text" val="00"/>
     </comp>
+
+    <!-- Your existing circuit code goes here -->
+
+  <!-- Define D Flip-Flops for storing scores -->
+  <comp lib="4" loc="(300,300)" name="D Flip-Flop">
+    <a name="defaultQ" val="false"/>
+  </comp>
+  <comp lib="4" loc="(300,400)" name="D Flip-Flop">
+    <a name="defaultQ" val="false"/>
+  </comp>
+
+  <!-- Logic for updating Player A's score -->
+  <comp lib="1" loc="(400,300)" name="AND Gate"/>
+  <comp lib="1" loc="(450,300)" name="AND Gate"/>
+  <comp lib="1" loc="(500,300)" name="OR Gate"/>
+  <comp lib="5" loc="(550,300)" name="LED"/>
+
+  <!-- Logic for updating Player B's score -->
+  <comp lib="1" loc="(400,400)" name="AND Gate"/>
+  <comp lib="1" loc="(450,400)" name="AND Gate"/>
+  <comp lib="1" loc="(500,400)" name="OR Gate"/>
+  <comp lib="5" loc="(550,400)" name="LED"/>
+
+  <!-- Logic for "Register" button -->
+  <comp lib="5" loc="(350,500)" name="Button">
+    <a name="text" val="Register"/>
+  </comp>
+
+  <!-- Logic for "Reset" button -->
+  <comp lib="5" loc="(450,500)" name="Button">
+    <a name="text" val="Reset"/>
+  </comp>
+
+  <!-- Wiring for score storage and update -->
+  <wire from="(Player A's score logic)" to="(D Flip-Flop for Player A's score)">
+    <a name="srcPort" val="Q"/>
+    <a name="dstPort" val="D"/>
+  </wire>
+  <wire from="(Player B's score logic)" to="(D Flip-Flop for Player B's score)">
+    <a name="srcPort" val="Q"/>
+    <a name="dstPort" val="D"/>
+  </wire>
+  <wire from="(D Flip-Flop for Player A's score)" to="(AND Gate for Player A)">
+    <a name="srcPort" val="Q"/>
+    <a name="dstPort" val="A"/>
+  </wire>
+  <wire from="(D Flip-Flop for Player B's score)" to="(AND Gate for Player B)">
+    <a name="srcPort" val="Q"/>
+    <a name="dstPort" val="A"/>
+  </wire>
+  <wire from="(AND Gate for Player A)" to="(OR Gate for Player A)">
+    <a name="srcPort" val="A"/>
+    <a name="dstPort" val="I0"/>
+  </wire>
+  <wire from="(AND Gate for Player B)" to="(OR Gate for Player B)">
+    <a name="srcPort" val="A"/>
+    <a name="dstPort" val="I0"/>
+  </wire>
+  <wire from="(OR Gate for Player A)" to="(LED for Player A)">
+    <a name="srcPort" val="I"/>
+    <a name="dstPort" val="in"/>
+  </wire>
+  <wire from="(OR Gate for Player B)" to="(LED for Player B)">
+    <a name="srcPort" val="I"/>
+    <a name="dstPort" val="in"/>
+  </wire>
+
+  <!-- Wiring for buttons -->
+  <wire from="(Button for Register logic)" to="(Player A's score logic)">
+    <a name="srcPort" val="out"/>
+    <a name="dstPort" val="Register input"/>
+  </wire>
+  <wire from="(Button for Register logic)" to="(Player B's score logic)">
+    <a name="srcPort" val="out"/>
+    <a name="dstPort" val="Register input"/>
+  </wire>
+  <wire from="(Button for Reset logic)" to="(D Flip-Flop for Player A's score)">
+    <a name="srcPort" val="out"/>
+    <a name="dstPort" val="D"/>
+  </wire>
+  <wire from="(Button for Reset logic)" to="(D Flip-Flop for Player B's score)">
+    <a name="srcPort" val="out"/>
+    <a name="dstPort" val="D"/>
+  </wire>
+
+
     <wire from="(180,360)" to="(180,300)"/> <!-- Connect the Register button to Player A's score value -->
     <wire from="(180,480)" to="(180,400)"/> <!-- Connect the Register button to Player B's score value -->
     <wire from="(270,300)" to="(250,300)"/> <!-- Connect Player A's score value to LED -->
